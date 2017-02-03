@@ -24,6 +24,7 @@ Thumbs.db
 obj/
 Deploy/
 _ReSharper*/
+.idea/
 [Tt]est[Rr]esult*
 .DS_Store
 Package.txt
