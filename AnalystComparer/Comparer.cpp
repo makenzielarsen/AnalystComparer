@@ -19,33 +19,28 @@ int Comparer::load(int argc, char* argv[])
 
     m_outputFilename = argv[1];
     m_analystCount = argc - 2;
-    // TODO: Allocate a container, like an array of pointers, to hold the analysts
-    //
-    // Example Code:
-    // m_analysts = new Analyst*[m_analystCount];
+    m_analysts = new Analyst*[m_analystCount];
 
     int analystIndex = 0;
-    for (int i = 0; i < m_analystCount; i++)
+    for (; analystIndex < m_analystCount; analystIndex++)
     {
-        std::ifstream inputStream(argv[2 + analystIndex]);
+        std::ifstream inputStream;
+        inputStream.open(argv[2 + analystIndex]);
 
-        // TODO: Create a new analyst, load it from the input stream, and put it into the container if that load succeeded
-        //
-        // Example code:
-        // m_analysts[analystIndex] = new Analyst();
-        // if (m_analysts[analystIndex]->load(inputStream) < 0)
-        // {
-        //     std::cout << "Failed to load " << argc[analystIndex] << std::endl;
-        // }
-        // else
-        //      analystIndex++;
+        m_analysts[analystIndex] = new Analyst();
+        if (m_analysts[analystIndex]->load(inputStream) != 0) {
+            std::cout << "Failed to load " << argv[analystIndex] << std::endl;
+        }
+
+        inputStream.close();
     }
 
     loadSymbols();
 
     int result = 0;
-    if (analystIndex < m_analystCount)
+    if (analystIndex < m_analystCount) {
         result = -1;
+    }
 
     return result;
 }

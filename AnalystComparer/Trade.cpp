@@ -14,4 +14,5 @@ int Trade::load(std::ifstream &inputStream) {
     inputStream >> saleDateAndTime;
     inputStream >> salePrice;
     inputStream >> saleTransactionFee;
+    return 0;
 }

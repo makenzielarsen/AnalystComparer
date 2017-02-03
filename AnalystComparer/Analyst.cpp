@@ -43,3 +43,23 @@ double Analyst::getTotalProfitLoss() const {
 double Analyst::getProfitLossPerDay() const {
     return profitLossPerDay;
 }
+
+int Analyst::load(ifstream &inputStream) {
+    if (inputStream.is_open()) {
+        inputStream >> Analyst::fullName;
+        inputStream >> Analyst::initials;
+        inputStream >> Analyst::simulationDays;
+        inputStream >> Analyst::seedMoney;
+        inputStream >> Analyst::purchasesOrSales;
+        for (int i = 0; i < purchasesOrSales; i++) {
+            Trade purchase;
+            if (purchase.load(inputStream) == 0) {
+                purchases[i]->push_back(purchase);
+            } else {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    return 1;
+}

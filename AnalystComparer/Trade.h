@@ -30,7 +30,7 @@ public:
     double getSaleDateAndTime() { return saleDateAndTime; }
     double getSalePrice() { return salePrice; }
     double getSaleTransactionFee() { return saleTransactionFee; }
-    double getMoneyInvested() { return moneyInvested };
+    double getMoneyInvested() { return moneyInvested; }
     double getProfit() { return profit; }
 
 };
