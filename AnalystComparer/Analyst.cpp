@@ -28,7 +28,7 @@ int Analyst::getPurchasesOrSales() const {
     return purchasesOrSales;
 }
 
-vector<Trade> **Analyst::getPurchases() const {
+vector<Trade> Analyst::getPurchases() const {
     return purchases;
 }
 
@@ -46,15 +46,21 @@ double Analyst::getProfitLossPerDay() const {
 
 int Analyst::load(ifstream &inputStream) {
     if (inputStream.is_open()) {
-        inputStream >> Analyst::fullName;
-        inputStream >> Analyst::initials;
-        inputStream >> Analyst::simulationDays;
-        inputStream >> Analyst::seedMoney;
-        inputStream >> Analyst::purchasesOrSales;
+        string line;
+        getline(inputStream, line);
+        fullName = line;
+        getline(inputStream, line);
+        initials = line;
+        getline(inputStream, line);
+        simulationDays = stoi(line);
+        getline(inputStream, line);
+        seedMoney = stoi(line);
+        getline(inputStream, line);
+        purchasesOrSales = stoi(line);
         for (int i = 0; i < purchasesOrSales; i++) {
             Trade purchase;
             if (purchase.load(inputStream) == 0) {
-                purchases[i]->push_back(purchase);
+                purchases.push_back(purchase);
             } else {
                 return 1;
             }

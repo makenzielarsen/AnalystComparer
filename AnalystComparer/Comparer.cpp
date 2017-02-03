@@ -19,7 +19,6 @@ int Comparer::load(int argc, char* argv[])
 
     m_outputFilename = argv[1];
     m_analystCount = argc - 2;
-    m_analysts = new Analyst*[m_analystCount];
 
     int analystIndex = 0;
     for (; analystIndex < m_analystCount; analystIndex++)
@@ -27,10 +26,11 @@ int Comparer::load(int argc, char* argv[])
         std::ifstream inputStream;
         inputStream.open(argv[2 + analystIndex]);
 
-        m_analysts[analystIndex] = new Analyst();
-        if (m_analysts[analystIndex]->load(inputStream) != 0) {
+        Analyst analyst;
+        if (analyst.load(inputStream) != 0) {
             std::cout << "Failed to load " << argv[analystIndex] << std::endl;
         }
+        m_analysts.push_back(analyst);
 
         inputStream.close();
     }

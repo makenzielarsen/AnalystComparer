@@ -13,7 +13,7 @@
 class Comparer {
 private:
     std::string     m_outputFilename;
-    Analyst**       m_analysts = nullptr;
+    vector<Analyst> m_analysts;
     int             m_analystCount = 0;
     std::string     m_symbols[MAX_SYMBOLS];
     int             m_symbolsCount = 0;

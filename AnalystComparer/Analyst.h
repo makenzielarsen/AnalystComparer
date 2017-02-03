@@ -16,7 +16,7 @@ private:
     double seedMoney;
     int purchasesOrSales;
 
-    vector<Trade>** purchases = nullptr;
+    vector<Trade> purchases;
     vector<string> stockSymbolsInvestedIn;
     double totalProfitLoss = 0;
     double profitLossPerDay = 0;
@@ -34,7 +34,7 @@ public:
 
     int getPurchasesOrSales() const;
 
-    vector<Trade> **getPurchases() const;
+    vector<Trade> getPurchases() const;
 
     const vector<string> &getStockSymbolsInvestedIn() const;
 
