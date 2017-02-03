@@ -7,9 +7,10 @@
 #include <iomanip>
 #include "Comparer.h"
 #include "Utils.h"
+#include "Analyst.h"
+#include "FormattedTable.h"
 
-int Comparer::load(int argc, char* argv[])
-{
+int Comparer::load(int argc, char* argv[]) {
     if (argc<3)
     {
         std::cout << "Invalid parameters" << std::endl;
@@ -45,8 +46,7 @@ int Comparer::load(int argc, char* argv[])
     return result;
 }
 
-int Comparer::compare() const
-{
+int Comparer::compare() const {
     if (m_analystCount < 2)
     {
         std::cout << "Cannot do comparison with " << m_analystCount << " analysts" << std::endl;
@@ -67,46 +67,59 @@ int Comparer::compare() const
     return 0;
 }
 
-void Comparer::loadSymbols()
-{
+void Comparer::loadSymbols() {
     m_symbolsCount = 0;
-    // TODO: Go through all analysts' histories and build a list of symbols used in any Purchase-Sale.
-    // According to the design, every analyst has a design and a history contains purchase-sale objects.
-    // Each purchase-sale object is for a symbol.
-    //
-    // The m_symbols array contains the list of references symbols.  The std::find methods checks to see
-    // if a symbol is already in that array.  If it is not, then the result result is the std::end of the
-    // the array and the symbol is array to the array.
-    //
-    // Example code:
-    // for (int i = 0; i < m_analystCount; i++)
-    // {
-    //    History& history = m_analysts[i]->getHistory();
-    //    history.resetIterator();
-    //    const PurchaseSale* purchaseSale;
-    //    while ((purchaseSale = history.nextPurchaseSale()) != nullptr)
-    //    {
-    //        std::string symbol = purchaseSale->getSymbol();
-    //        std::string *existingSymbol = std::find(std::begin(m_symbols), std::end(m_symbols), symbol);
-    //        if (existingSymbol == std::end(m_symbols)) {
-    //            m_symbols[m_symbolsCount++] = symbol;
-    //        }
-    //    }
-    // }
+    for (int i = 0; i < m_analystCount; i++) {
+        for (int purchase = 0; purchase < m_analysts[i].getPurchasesOrSales(); purchase++) {
+            std::vector<std::string> temporary(m_analysts[i].getPurchasesOrSales());
+            temporary[i] = m_analysts[i].getStockSymbolsInvestedIn()[purchase];
+
+            std::string *existingSymbol = std::find(std::begin(m_symbols), std::end(m_symbols), temporary[i]);
+
+            if (existingSymbol == std::end(m_symbols)) {
+                m_symbols[m_symbolsCount++] = temporary[i];
+            }
+        }
+    }
 }
 
 
-void Comparer::outputInvestorNames(std::ofstream& outputStream) const
-{
-    // TODO: Write out investor names
+void Comparer::outputInvestorNames(std::ofstream& outputStream) const {
+    outputStream << "Analyst Comparison" << endl;
+    outputStream << endl;
+    outputStream << "Investors" << endl;
+    for (int analyst = 0; analyst < m_analystCount; analyst++) {
+        outputStream << "A" << analyst + 1 << setw(4) << "" << m_analysts[analyst].getFullName() << endl;
+    }
+    outputStream << endl;
 }
 
-void Comparer::outputOverallPerformance(std::ofstream& outputStream) const
-{
-    // TODO: Write out Overall Performance table.  The classes from the FormattedTable example might be helpful.
+void Comparer::outputOverallPerformance(std::ofstream& outputStream) const {
+    outputStream << "Overall Performance" << std::endl;
+
+    FormattedTable table(6, 3);
+
+    table.addColumn(new ColumnDefinition("", 10, ColumnDefinition::String));
+
+    for (int investor = 0; investor < m_analystCount; investor++) {
+        table.addColumn(new ColumnDefinition(m_analysts[investor].getInitials(), 10, ColumnDefinition::String));
+    }
+    for (int investor = 0; investor < m_analystCount; investor++) {
+        FormattedRow* row = new FormattedRow(&table);
+        row->addCell(new FormattedCell(m_analysts[investor].getSimulationDays()));
+        row->addCell(new FormattedCell(m_analysts[investor].getSeedMoney()));
+        row->addCell(new FormattedCell(m_analysts[investor].getTotalProfitLoss()));
+        row->addCell(new FormattedCell(m_analysts[investor].getProfitLossPerDay()));
+        table.addRow(row);
+    }
+
+    table.write(outputStream);
+    outputStream << endl;
 };
 
-void Comparer::outputStockPerformance(std::ofstream& outputStream) const
-{
-    // TODO: Write out Stock Performance table.  The classes from the FormattedTable example might be helpful.
+void Comparer::outputStockPerformance(std::ofstream& outputStream) const {
+    outputStream << "Stock Performance" << endl;
+
+
+    outputStream << endl;
 }

@@ -61,6 +61,7 @@ int Analyst::load(ifstream &inputStream) {
             Trade purchase;
             if (purchase.load(inputStream) == 0) {
                 purchases.push_back(purchase);
+                stockSymbolsInvestedIn.push_back(purchase.getStockSymbol());
             } else {
                 return 1;
             }

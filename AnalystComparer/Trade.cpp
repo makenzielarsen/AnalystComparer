@@ -23,5 +23,6 @@ int Trade::load(std::ifstream &inputStream) {
     saleDateAndTime = stoi(fields[5]);
     salePrice = stoi(fields[6]);
     saleTransactionFee = stoi(fields[7]);
+
     return 0;
 }
