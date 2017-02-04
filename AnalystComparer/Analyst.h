@@ -18,8 +18,9 @@ private:
 
     vector<Trade> purchases;
     vector<string> stockSymbolsInvestedIn;
-    double totalProfitLoss = 0;
-    double profitLossPerDay = 0;
+    double totalProfitLoss();
+    double profitLossPerDay(double totalProfitLoss);
+    double stockProfitLossPerDay();
 
 public:
     int load(ifstream& inputStream);
@@ -38,9 +39,9 @@ public:
 
     const vector<string> &getStockSymbolsInvestedIn() const;
 
-    double getTotalProfitLoss() const;
+    double getTotalProfitLoss();
 
-    double getProfitLossPerDay() const;
+    double getProfitLossPerDay();
 
 };
 #endif //ANALYSTCOMPARER_ANALYST_H

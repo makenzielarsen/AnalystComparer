@@ -36,12 +36,43 @@ const vector<string> &Analyst::getStockSymbolsInvestedIn() const {
     return stockSymbolsInvestedIn;
 }
 
-double Analyst::getTotalProfitLoss() const {
+double Analyst::getTotalProfitLoss() {
+    double totalProfitLoss = totalProfitLoss();
     return totalProfitLoss;
 }
 
-double Analyst::getProfitLossPerDay() const {
-    return profitLossPerDay;
+double Analyst::getProfitLossPerDay() {
+    double totalProfitLossPerDay = profitLossPerDay(totalProfitLoss());
+    return totalProfitLossPerDay;
+}
+
+double Analyst::totalProfitLoss(){
+    double profitLoss;
+    for (int i = 0; i < purchasesOrSales; i++) {
+        profitLoss += purchases[i].getProfit();
+    }
+    return profitLoss;
+}
+
+double Analyst::profitLossPerDay(double totalProfitLoss){
+    double totalProfitLossPerDay = totalProfitLoss / simulationDays;
+    return totalProfitLossPerDay;
+}
+
+double Analyst::stockProfitLossPerDay() {
+    int symbolCount = 0;
+    std::string symbols[purchases.size()];
+    for (int purchase = 0; purchase < purchasesOrSales; purchase++) {
+        std::vector<std::string> temporary(purchasesOrSales);
+        temporary[purchase] = purchases[purchase].getStockSymbol();
+
+        std::string *existingSymbol = std::find(std::begin(symbols), std::end(symbols), temporary[purchase]);
+
+        if (existingSymbol == std::end(symbols)) {
+            symbols[symbolCount++] = temporary[purchase];
+            Trade symbolCount = 
+        }
+    }
 }
 
 int Analyst::load(ifstream &inputStream) {

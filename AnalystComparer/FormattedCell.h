@@ -18,8 +18,8 @@ private:
     ColumnDefinition*   m_columnDefinition = nullptr;
 
 public:
-    FormattedCell(std::string value);
-    FormattedCell(int value);
+//    FormattedCell(std::string value);
+//    FormattedCell(int value);
     FormattedCell(float value);
     ~FormattedCell();
 

@@ -7,17 +7,17 @@
 #include <iomanip>
 #include "FormattedCell.h"
 
-FormattedCell::FormattedCell(std::string value)
-{
-    m_dataType = allocatedDataType::String;
-    m_value = new std::string(value);
-}
-
-FormattedCell::FormattedCell(int value)
-{
-    m_dataType = allocatedDataType::Integer;
-    m_value = new int(value);
-}
+//FormattedCell::FormattedCell(std::string value)
+//{
+//    m_dataType = allocatedDataType::String;
+//    m_value = new std::string(value);
+//}
+//
+//FormattedCell::FormattedCell(int value)
+//{
+//    m_dataType = allocatedDataType::Integer;
+//    m_value = new int(value);
+//}
 
 FormattedCell::FormattedCell(float value)
 {
