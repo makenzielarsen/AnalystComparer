@@ -8,7 +8,6 @@
 #include "Comparer.h"
 #include "Utils.h"
 #include "Analyst.h"
-#include "FormattedTable.h"
 
 int Comparer::load(int argc, char* argv[]) {
     if (argc<3)
