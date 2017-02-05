@@ -62,15 +62,20 @@ double Analyst::profitLossPerDay(double totalProfitLoss){
 double Analyst::stockProfitLossPerDay() {
     int symbolCount = 0;
     std::string symbols[purchases.size()];
+    std::vector<Trade> stockAdditions;
     for (int purchase = 0; purchase < purchasesOrSales; purchase++) {
         std::vector<std::string> temporary(purchasesOrSales);
         temporary[purchase] = purchases[purchase].getStockSymbol();
 
         std::string *existingSymbol = std::find(std::begin(symbols), std::end(symbols), temporary[purchase]);
+        ptrdiff_t position = std::find(std::begin(stockAdditions[purchase].getStockSymbol()), std::end(stockAdditions[purchase].getStockSymbol()), temporary[purchase]) - std::begin(symbols);
 
         if (existingSymbol == std::end(symbols)) {
             symbols[symbolCount++] = temporary[purchase];
-            Trade symbolCount = 
+            Trade symbolTemp = purchases[purchase];
+            stockAdditions.push_back(symbolTemp);
+        } else {
+
         }
     }
 }

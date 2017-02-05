@@ -78,6 +78,7 @@ void Comparer::loadSymbols() {
 
             if (existingSymbol == std::end(m_symbols)) {
                 m_symbols[m_symbolsCount++] = temporary[i];
+
             }
         }
     }
