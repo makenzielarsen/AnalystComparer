@@ -14,9 +14,7 @@ class Comparer {
 private:
     std::string     m_outputFilename;
     vector<Analyst> m_analysts;
-    int             m_analystCount = 0;
-    std::string     m_symbols[MAX_SYMBOLS];
-    int             m_symbolsCount = 0;
+    set<string>     m_symbols;
 
 public:
     int load(int argv, char* argc[]);

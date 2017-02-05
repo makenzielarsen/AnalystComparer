@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include <fstream>
 #include "Trade.h"
 
@@ -17,10 +18,7 @@ private:
     int purchasesOrSales;
 
     vector<Trade> purchases;
-    vector<string> stockSymbolsInvestedIn;
-    double totalProfitLoss();
-    double profitLossPerDay(double totalProfitLoss);
-    double stockProfitLossPerDay();
+    set<string> stockSymbolsInvestedIn;
 
 public:
     int load(ifstream& inputStream);
@@ -37,11 +35,11 @@ public:
 
     vector<Trade> getPurchases() const;
 
-    const vector<string> &getStockSymbolsInvestedIn() const;
+    const set<string> &getStockSymbolsInvestedIn() const;
 
-    double getTotalProfitLoss();
+    double getTotalProfitLoss() const;
 
-    double getProfitLossPerDay();
+    double getProfitLossPerDay() const;
 
 };
 #endif //ANALYSTCOMPARER_ANALYST_H

@@ -19,10 +19,10 @@ int Comparer::load(int argc, char* argv[]) {
     }
 
     m_outputFilename = argv[1];
-    m_analystCount = argc - 2;
+    auto analystCount = argc - 2;
 
     int analystIndex = 0;
-    for (; analystIndex < m_analystCount; analystIndex++)
+    for (; analystIndex < analystCount; analystIndex++)
     {
         std::ifstream inputStream;
         inputStream.open(argv[2 + analystIndex]);
@@ -39,7 +39,7 @@ int Comparer::load(int argc, char* argv[]) {
     loadSymbols();
 
     int result = 0;
-    if (analystIndex < m_analystCount) {
+    if (analystIndex < m_analysts.size()) {
         result = -1;
     }
 
@@ -47,9 +47,9 @@ int Comparer::load(int argc, char* argv[]) {
 }
 
 int Comparer::compare() const {
-    if (m_analystCount < 2)
+    if (m_analysts.size() < 2)
     {
-        std::cout << "Cannot do comparison with " << m_analystCount << " analysts" << std::endl;
+        std::cout << "Cannot do comparison with " << m_analysts.size() << " analysts" << std::endl;
         return -1;
     }
 
@@ -68,19 +68,9 @@ int Comparer::compare() const {
 }
 
 void Comparer::loadSymbols() {
-    m_symbolsCount = 0;
-    for (int i = 0; i < m_analystCount; i++) {
-        for (int purchase = 0; purchase < m_analysts[i].getPurchasesOrSales(); purchase++) {
-            std::vector<std::string> temporary(m_analysts[i].getPurchasesOrSales());
-            temporary[i] = m_analysts[i].getStockSymbolsInvestedIn()[purchase];
-
-            std::string *existingSymbol = std::find(std::begin(m_symbols), std::end(m_symbols), temporary[i]);
-
-            if (existingSymbol == std::end(m_symbols)) {
-                m_symbols[m_symbolsCount++] = temporary[i];
-
-            }
-        }
+    for (auto const &analyst : m_analysts) {
+        auto symbols = analyst.getStockSymbolsInvestedIn();
+        m_symbols.insert(symbols.begin(), symbols.end());
     }
 }
 
@@ -89,8 +79,8 @@ void Comparer::outputInvestorNames(std::ofstream& outputStream) const {
     outputStream << "Analyst Comparison" << endl;
     outputStream << endl;
     outputStream << "Investors" << endl;
-    for (int analyst = 0; analyst < m_analystCount; analyst++) {
-        outputStream << m_analysts[analyst].getInitials() << setw(4) << "" << m_analysts[analyst].getFullName() << endl;
+    for (auto const &analyst : m_analysts) {
+        outputStream << analyst.getInitials() << setw(4) << "" << analyst.getFullName() << endl;
     }
     outputStream << endl;
 }
@@ -99,15 +89,15 @@ void Comparer::outputOverallPerformance(std::ofstream& outputStream) const {
     outputStream << "Overall Performance" << std::endl;
 
     outputStream << setw(16) << "";
-    for (int analyst = 0; analyst < m_analystCount; analyst++) {
-        outputStream << setw(16) << m_analysts[analyst].getInitials();
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << analyst.getInitials();
     }
-    for (int analyst = 0; analyst < m_analystCount; analyst++) {
+    for (auto const &analyst : m_analysts) {
         outputStream << setw(16) << "D (days)";
-        outputStream << setw(16) << m_analysts[analyst].getSimulationDays();
-        outputStream << setw(16) << m_analysts[analyst].getSeedMoney();
-        outputStream << setw(16) << m_analysts[analyst].getTotalProfitLoss();
-        outputStream << setw(16) << m_analysts[analyst].getTotalProfitLoss();
+        outputStream << setw(16) << analyst.getSimulationDays();
+        outputStream << setw(16) << analyst.getSeedMoney();
+        outputStream << setw(16) << analyst.getTotalProfitLoss();
+        outputStream << setw(16) << analyst.getProfitLossPerDay();
         outputStream << endl;
     }
     outputStream << endl;
