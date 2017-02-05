@@ -15,9 +15,8 @@ private:
     string initials;
     int simulationDays;
     double seedMoney;
-    int purchasesOrSales;
 
-    vector<Trade> purchases;
+    vector<Trade> trades;
     set<string> stockSymbolsInvestedIn;
 
 public:
@@ -31,9 +30,7 @@ public:
 
     double getSeedMoney() const;
 
-    int getPurchasesOrSales() const;
-
-    vector<Trade> getPurchases() const;
+    vector<Trade> getTrades() const;
 
     const set<string> &getStockSymbolsInvestedIn() const;
 

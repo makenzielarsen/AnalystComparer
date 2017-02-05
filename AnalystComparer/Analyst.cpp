@@ -24,12 +24,8 @@ double Analyst::getSeedMoney() const {
     return seedMoney;
 }
 
-int Analyst::getPurchasesOrSales() const {
-    return purchasesOrSales;
-}
-
-vector<Trade> Analyst::getPurchases() const {
-    return purchases;
+vector<Trade> Analyst::getTrades() const {
+    return trades;
 }
 
 const set<string> & Analyst::getStockSymbolsInvestedIn() const {
@@ -42,33 +38,11 @@ double Analyst::getProfitLossPerDay() const {
 
 double Analyst::getTotalProfitLoss() const {
     double profitLoss = 0;
-    for (auto const &purchase : purchases) {
-        profitLoss += purchase.getProfit();
+    for (auto const &purchase : trades) {
+        profitLoss += purchase.getProfitLoss();
     }
     return profitLoss;
 }
-
-//double Analyst::getStockProfitLossPerDay() const {
-//    int symbolCount = 0;
-//    std::string symbols[purchases.size()];
-//    std::vector<Trade> stockAdditions;
-//    for (int purchase = 0; purchase < purchasesOrSales; purchase++) {
-//        std::vector<std::string> temporary(purchasesOrSales);
-//        temporary[purchase] = purchases[purchase].getStockSymbol();
-//
-//        std::string *existingSymbol = std::find(std::begin(symbols), std::end(symbols), temporary[purchase]);
-//        ptrdiff_t position = std::find(std::begin(stockAdditions[purchase].getStockSymbol()), std::end(stockAdditions[purchase].getStockSymbol()), temporary[purchase]) - std::begin(symbols);
-//
-//        if (existingSymbol == std::end(symbols)) {
-//            symbols[symbolCount++] = temporary[purchase];
-//            Trade symbolTemp = purchases[purchase];
-//            stockAdditions.push_back(symbolTemp);
-//        } else {
-//
-//        }
-//    }
-//}
-
 
 int Analyst::load(ifstream &inputStream) {
     if (inputStream.is_open()) {
@@ -82,11 +56,11 @@ int Analyst::load(ifstream &inputStream) {
         getline(inputStream, line);
         seedMoney = stoi(line);
         getline(inputStream, line);
-        purchasesOrSales = stoi(line);
-        for (int i = 0; i < purchasesOrSales; i++) {
+        int numberOfTrades = stoi(line);
+        for (int i = 0; i < numberOfTrades; i++) {
             Trade purchase;
             if (purchase.load(inputStream) == 0) {
-                purchases.push_back(purchase);
+                trades.push_back(purchase);
                 stockSymbolsInvestedIn.insert(purchase.getStockSymbol());
             } else {
                 return 1;
@@ -103,14 +77,14 @@ double Analyst::getStockPerformanceForSymbol(string symbol) const {
     double lastDay = 0;
     double profitLoss = 0;
 
-    for (int i = 0; i < purchasesOrSales; i++) {
-        auto purchase = purchases[i];
+    for (int i = 0; i < trades.size(); i++) {
+        auto purchase = trades[i];
         if(purchase.getStockSymbol().compare(symbol) == 0) {
             if (firstDay == 0) {
                 firstDay = purchase.getPurchaseDateAndTime();
             }
             lastDay = purchase.getSaleDateAndTime();
-            profitLoss += purchase.getProfit();
+            profitLoss += purchase.getProfitLoss();
         }
     }
 

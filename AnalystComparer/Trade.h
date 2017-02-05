@@ -33,7 +33,7 @@ public:
 
     // Calculated Properties
     double getMoneyInvested() const { return quantity * purchasePrice + purchaseTransactionFee + saleTransactionFee; }
-    double getProfit() const { return quantity * salePrice - getMoneyInvested(); }
+    double getProfitLoss() const { return quantity * salePrice - getMoneyInvested(); }
 };
 
 #endif //ANALYSTCOMPARER_TRADE_H
