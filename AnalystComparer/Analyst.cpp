@@ -69,6 +69,7 @@ double Analyst::getTotalProfitLoss() const {
 //    }
 //}
 
+
 int Analyst::load(ifstream &inputStream) {
     if (inputStream.is_open()) {
         string line;
@@ -94,4 +95,27 @@ int Analyst::load(ifstream &inputStream) {
         return 0;
     }
     return 1;
+}
+
+double Analyst::getStockPerformanceForSymbol(string symbol) const {
+
+    double firstDay = 0;
+    double lastDay = 0;
+    double profitLoss = 0;
+
+    for (int i = 0; i < purchasesOrSales; i++) {
+        auto purchase = purchases[i];
+        if(purchase.getStockSymbol().compare(symbol) == 0) {
+            if (firstDay == 0) {
+                firstDay = purchase.getPurchaseDateAndTime();
+            }
+            lastDay = purchase.getSaleDateAndTime();
+            profitLoss += purchase.getProfit();
+        }
+    }
+
+    double stockInvestmentDays = (lastDay - firstDay) / (24 * 60);
+    double profitLossPerDay = profitLoss / stockInvestmentDays;
+
+    return profitLossPerDay;
 }

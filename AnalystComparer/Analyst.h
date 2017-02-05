@@ -41,5 +41,6 @@ public:
 
     double getProfitLossPerDay() const;
 
+    double getStockPerformanceForSymbol(string) const;
 };
 #endif //ANALYSTCOMPARER_ANALYST_H

@@ -125,6 +125,13 @@ void Comparer::outputOverallPerformance(std::ofstream& outputStream) const {
 void Comparer::outputStockPerformance(std::ofstream& outputStream) const {
     outputStream << "Stock Performance" << endl;
 
+    for (auto const &symbol : m_symbols) {
+        for (auto const &analyst : m_analysts) {
+            auto performance = analyst.getStockPerformanceForSymbol(symbol);
+            // output cell
+        }
+    }
+
 
     outputStream << endl;
 }
