@@ -87,6 +87,9 @@ double Analyst::getStockPerformanceForSymbol(string symbol) const {
             profitLoss += purchase.getProfitLoss();
         }
     }
+    if (firstDay == 0) {
+        return 0;
+    }
 
     double stockInvestmentDays = (lastDay - firstDay) / (24 * 60);
     double profitLossPerDay = profitLoss / stockInvestmentDays;

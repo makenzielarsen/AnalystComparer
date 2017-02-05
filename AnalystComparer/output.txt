@@ -3,10 +3,20 @@ Analyst Comparison
 Investors
 MGR    Mary G. Richardson
 SJL    Samuel J Larsen
+TRS    Tammy R. Samuelson
 
 Overall Performance
-                             MGR             SJL        D (days)             220           1e+07          374920         1704.18
-        D (days)             204           1e+07          326025         1598.16
+                             MGR             SJL             TRS
+        D (days)             220             204             200
+ Seed Amount ($)       100000.00       100000.00       100000.00
+         TPL ($)         3749.20         3260.25         2862.65
+    PLPD ($/day)           17.04           15.98           14.31
 
-Stock Performance
+Stock Performance (SPLPD)
+
+          Symbol             MGR             SJL             TRS
+            AAPL                           17.25           18.68
+            AMZN           21.51            9.85            8.00
+           GOOGL                            9.28            6.01
+            MSFT           -0.56                            0.88
 

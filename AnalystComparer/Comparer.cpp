@@ -86,50 +86,61 @@ void Comparer::outputInvestorNames(std::ofstream& outputStream) const {
 }
 
 void Comparer::outputOverallPerformance(std::ofstream& outputStream) const {
-    outputStream << "Overall Performance" << std::endl;
+    outputStream << "Overall Performance" << endl;
 
     outputStream << setw(16) << "";
     for (auto const &analyst : m_analysts) {
         outputStream << setw(16) << analyst.getInitials();
     }
-    for (auto const &analyst : m_analysts) {
-        outputStream << setw(16) << "D (days)";
-        outputStream << setw(16) << analyst.getSimulationDays();
-        outputStream << setw(16) << analyst.getSeedMoney();
-        outputStream << setw(16) << analyst.getTotalProfitLoss();
-        outputStream << setw(16) << analyst.getProfitLossPerDay();
-        outputStream << endl;
-    }
     outputStream << endl;
 
-//    FormattedTable table(6, 3);
-//
-//    table.addColumn(new ColumnDefinition("", 10, ColumnDefinition::String));
-//
-//    for (int investor = 0; investor < m_analystCount; investor++) {
-//        table.addColumn(new ColumnDefinition(m_analysts[investor].getInitials(), 10, ColumnDefinition::String));
-//    }
-//    for (int investor = 0; investor < m_analystCount; investor++) {
-//        FormattedRow* row = new FormattedRow(&table);
-//        row->addCell(new FormattedCell(m_analysts[investor].getSimulationDays()));
-//        row->addCell(new FormattedCell(m_analysts[investor].getSeedMoney()));
-//        row->addCell(new FormattedCell(m_analysts[investor].getTotalProfitLoss()));
-//        row->addCell(new FormattedCell(m_analysts[investor].getProfitLossPerDay()));
-//        table.addRow(row);
-//    }
-//
-//    table.write(outputStream);
-//    outputStream << endl;
+    outputStream << setw(16) << "D (days)";
+
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << fixed << setprecision(2) << analyst.getSimulationDays();
+    }
+    outputStream << endl;
+    outputStream << setw(16) << "Seed Amount ($)";
+
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << analyst.getSeedMoney() / 100;
+    }
+    outputStream << endl;
+    outputStream << setw(16) << "TPL ($)";
+
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << analyst.getTotalProfitLoss() / 100;
+    }
+    outputStream << endl;
+    outputStream << setw(16) << "PLPD ($/day)";
+
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << analyst.getProfitLossPerDay() / 100;
+    }
+    outputStream << endl;
+    outputStream << endl;
 };
 
 void Comparer::outputStockPerformance(std::ofstream& outputStream) const {
-    outputStream << "Stock Performance" << endl;
+    outputStream << "Stock Performance (SPLPD)" << endl;
+    outputStream << endl;
+    outputStream << setw(16) << "Symbol";
+    for (auto const &analyst : m_analysts) {
+        outputStream << setw(16) << analyst.getInitials();
+    }
+    outputStream << endl;
 
     for (auto const &symbol : m_symbols) {
+        outputStream << setw(16) << symbol;
         for (auto const &analyst : m_analysts) {
             auto performance = analyst.getStockPerformanceForSymbol(symbol);
-            // output cell
+            if (performance != 0) {
+                outputStream << setw(16) << performance / 100;
+            } else {
+                outputStream << setw(16) << "";
+            }
         }
+        outputStream << endl;
     }
 
 
